@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TestViktor</string>
+    <string name="main">Главная</string>
+    <string name="map">Карта</string>
+    <string name="brooking">Бронь</string>
+    <string name="chat">Чат</string>
+    <string name="more">Ещё</string>
+</resources>

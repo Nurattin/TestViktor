@@ -1,0 +1,95 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlinx-serialization'
+}
+
+android {
+    namespace 'com.example.testviktor'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.testviktor"
+        minSdk 21
+        targetSdk 33
+        versionCode 5
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+        signingConfig signingConfigs.debug
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", '"https://rsttur.ru/api/"'
+        }
+
+        debug {
+            buildConfigField "String", "BASE_URL", '"https://rsttur.ru/api/"'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion versions.composeCompiler
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation "androidx.compose.ui:ui:$versions.composeVersion"
+    implementation "androidx.compose.material:material:$versions.composeVersion"
+    implementation "androidx.compose.animation:animation:$versions.composeVersion"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.2.1"
+    implementation "androidx.compose.runtime:runtime:$versions.composeVersion"
+    implementation "androidx.compose.runtime:runtime-livedata:$versions.composeVersion"
+    implementation "androidx.navigation:navigation-compose:$versions.composeNavVersion"
+    implementation "androidx.activity:activity-compose:$versions.activityVersion"
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    debugImplementation "androidx.compose.ui:ui-tooling:$versions.composeVersion"
+
+    //Hilt
+    implementation "com.google.dagger:hilt-android:$versions.hiltVersion"
+    implementation "androidx.hilt:hilt-navigation-compose:$versions.hiltComposeNavigation"
+    kapt "com.google.dagger:hilt-compiler:$versions.hiltVersion"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$versions.hiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-compiler:$versions.hiltVersion"
+
+    //network
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$versions.okhttpVersion"
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2"
+
+    //System UI Controller
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$versions.accompanistSystemUiController"
+
+    //Coil image loader
+    implementation "io.coil-kt:coil-compose:$versions.coilVersion"
+
+    //FlowLayout
+    implementation "com.google.accompanist:accompanist-flowlayout:0.20.0"
+}
