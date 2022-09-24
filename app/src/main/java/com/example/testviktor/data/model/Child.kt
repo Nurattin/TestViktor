@@ -1,9 +1,12 @@
 package com.example.testviktor.data.model
 
 
+import androidx.annotation.Keep
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+
+@Keep
 @Serializable
 data class Child(
     @SerialName("success")
@@ -13,6 +16,7 @@ data class Child(
     @SerialName("data")
     val `data`: List<Data>
 ) {
+    @Keep
     @Serializable
     data class Data(
         @SerialName("id")
@@ -24,6 +28,7 @@ data class Child(
         @SerialName("subtitle")
         val subtitle: String
     ) {
+        @Keep
         @Serializable
         data class Image(
             @SerialName("sm")

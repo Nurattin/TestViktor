@@ -82,6 +82,7 @@ fun SmallHorizontalCard(
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colors.onSurface,
                 lineHeight = 20.sp,
+                maxLines = 1
             )
             Text(
                 text = title,
@@ -90,6 +91,7 @@ fun SmallHorizontalCard(
                 fontWeight = FontWeight.Normal,
                 color = MaterialTheme.colors.onSurface,
                 lineHeight = 24.sp,
+                maxLines = 1
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(buildAnnotatedString {

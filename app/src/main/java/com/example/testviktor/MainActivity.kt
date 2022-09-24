@@ -1,4 +1,4 @@
-package com.example.testviktor.ui.base
+package com.example.testviktor
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

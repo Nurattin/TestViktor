@@ -27,10 +27,13 @@ import com.example.testviktor.ui.theme.TestViktorTheme
 
 @Composable
 fun Banner(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    imageUrl: String,
+    title: String
 ) {
     val darkTheme = isSystemInDarkTheme()
     val itemSize = LocalConfiguration.current.screenWidthDp.dp
+
     Column(
         modifier = modifier
             .width(itemSize)
@@ -48,7 +51,7 @@ fun Banner(
         ) {
             AsyncImage(
                 modifier = Modifier,
-                model = "https://get.wallhere.com/photo/1800x1200-px-34-Bull-deer-elk-elks-1653661.jpg",
+                model = imageUrl,
                 contentDescription = null,
                 placeholder = painterResource(id = R.drawable.ic_baseline_image),
                 contentScale = ContentScale.FillBounds
@@ -65,12 +68,13 @@ fun Banner(
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
-            text = "Встреча с оленёнком Бемби в Cафари парке «Дикая природа»",
+            text = title,
             fontFamily = FontFamily(Font(R.font.roboto_medium, FontWeight.Medium)),
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             color = MaterialTheme.colors.onSurface,
             lineHeight = 24.sp,
+            maxLines = 1
         )
 
     }
@@ -82,6 +86,9 @@ fun Banner(
 @Composable
 private fun BigHorizontalCardPreview() {
     TestViktorTheme() {
-        Banner()
+        Banner(
+            imageUrl = "",
+            title = "Встреча с оленёнком Бемби в Cафари парке «Дикая природа»"
+        )
     }
 }

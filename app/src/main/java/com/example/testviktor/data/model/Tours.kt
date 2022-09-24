@@ -1,9 +1,11 @@
 package com.example.testviktor.data.model
 
 
+import androidx.annotation.Keep
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Keep
 @Serializable
 data class Tours(
     @SerialName("success")
@@ -13,6 +15,7 @@ data class Tours(
     @SerialName("data")
     val `data`: List<Data>
 ) {
+    @Keep
     @Serializable
     data class Data(
         @SerialName("id")
@@ -34,6 +37,7 @@ data class Tours(
         @SerialName("home")
         val home: Home
     ) {
+        @Keep
         @Serializable
         data class Image(
             @SerialName("sm")
@@ -43,7 +47,7 @@ data class Tours(
             @SerialName("lg")
             val lg: String
         )
-
+        @Keep
         @Serializable
         data class Date(
             @SerialName("typeDate")
@@ -51,7 +55,7 @@ data class Tours(
             @SerialName("date")
             val date: String
         )
-
+        @Keep
         @Serializable
         data class Duration(
             @SerialName("hour")
@@ -61,7 +65,7 @@ data class Tours(
             @SerialName("night")
             val night: Int?
         )
-
+        @Keep
         @Serializable
         data class Price(
             @SerialName("factPrice")
@@ -73,7 +77,7 @@ data class Tours(
             @SerialName("typePrice")
             val typePrice: String
         )
-
+        @Keep
         @Serializable
         data class Home(
             @SerialName("id")
@@ -91,6 +95,7 @@ data class Tours(
             @SerialName("base")
             val base: Base
         ) {
+            @Keep
             @Serializable
             data class Image(
                 @SerialName("lg")
@@ -100,7 +105,7 @@ data class Tours(
                 @SerialName("sm")
                 val sm: String
             )
-
+            @Keep
             @Serializable
             data class Base(
                 @SerialName("id")

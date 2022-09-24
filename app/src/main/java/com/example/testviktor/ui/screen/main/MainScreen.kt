@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -19,23 +21,34 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.NavHostController
 import com.example.testviktor.ui.base.component.LinkText
 import com.example.testviktor.ui.base.component.ShowMoreButton
+import com.example.testviktor.ui.base.route.ScreenRoute
 import com.example.testviktor.ui.screen.main.components.*
 import com.example.testviktor.ui.theme.DividerDark
 import com.example.testviktor.ui.theme.DividerLight
+import com.example.testviktor.ui.theme.LinkTextDark
+import com.example.testviktor.ui.theme.LinkTextLight
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.rememberPagerState
 
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun MainScreen(
-    viewModel: MainViewModel
+    viewModel: MainViewModel,
+    navController: NavHostController
 ) {
     val darkTheme = isSystemInDarkTheme()
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
+    val pagerState = rememberPagerState()
 
     LazyColumn {
         item { TopAppBar() }
@@ -79,7 +92,7 @@ fun MainScreen(
                 items = if (roomsList.size > 5 && !uiState.roomsState.showAll) roomsList.take(5)
                 else roomsList
             ) { room ->
-                Column() {
+                Column {
                     SmallHorizontalCard(
                         title = room.title,
                         price = room.price.factPrice,
@@ -114,13 +127,36 @@ fun MainScreen(
             )
         }
         item { Spacer(modifier = Modifier.height(8.dp)) }
-        item {
-            LazyRow() {
-                items(count = 5) {
-                    Banner()
+        if (uiState.forKidsList.isNotEmpty()) {
+            item {
+                HorizontalPager(
+                    count = uiState.forKidsList.size,
+                    state = pagerState
+                ) { index ->
+                    val item = uiState.forKidsList[index]
+                    Banner(
+                        imageUrl = item.image.lg,
+                        title = item.title
+                    )
                 }
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Center
+                ) {
+                    HorizontalPagerIndicator(
+                        modifier = Modifier,
+                        pagerState = pagerState,
+                        indicatorShape = RoundedCornerShape(16.dp),
+                        indicatorWidth = 8.dp,
+                        indicatorHeight = 4.dp,
+                        activeColor = if (darkTheme) LinkTextDark else LinkTextLight,
+                        spacing = 4.dp
+                    )
+                }
+
             }
         }
+        item { Spacer(modifier = Modifier.height(24.dp)) }
         item {
             Divider(
                 modifier = Modifier.fillMaxWidth(),
@@ -149,9 +185,12 @@ fun MainScreen(
                 ),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(count = 5) {
+                items(items = uiState.placesList) { place ->
                     SmallHorizontalCardFill(
-                        modifier = Modifier.width(304.dp)
+                        modifier = Modifier.width(304.dp),
+                        title = place.title,
+                        imageUrl = place.image.sm,
+                        subtitle = place.subtitle
                     )
                 }
             }
@@ -166,7 +205,7 @@ fun MainScreen(
         item {
             Heading(
                 modifier = Modifier.padding(start = 16.dp),
-                title = "Домики и номера"
+                title = "Туры"
             )
         }
         item { Spacer(modifier = Modifier.height(16.dp)) }
@@ -178,9 +217,16 @@ fun MainScreen(
                 mainAxisAlignment = FlowMainAxisAlignment.SpaceBetween,
                 crossAxisSpacing = 16.dp,
             ) {
-                for (i in 1..10) {
-                    SmallVerticalCard(width = itemSize)
+                uiState.toursList.forEach { tour ->
+                    SmallVerticalCard(
+                        width = itemSize,
+                        title = tour.title,
+                        price = tour.price.price,
+                        imageUrl = tour.image.md,
+                        type = tour.price.currency
+                    )
                 }
+
             }
         }
         item { Spacer(modifier = Modifier.height(16.dp)) }
@@ -207,7 +253,7 @@ fun MainScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Heading(title = "Места")
+                Heading(title = "Блоги")
                 LinkText(text = "Все (20)")
             }
         }
@@ -221,8 +267,15 @@ fun MainScreen(
                 ),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(count = 5) {
-                    BigHorizontalCardFill()
+                items(items = uiState.blogList) { blog ->
+                    BigHorizontalCardFill(
+                        title = blog.title,
+                        imageUrl = blog.image.md,
+                        subTitle = blog.subtitle,
+                        onClick = {
+                            navController.navigate(ScreenRoute.DetailBlog.passBlogId(blog.id))
+                        }
+                    )
                 }
             }
         }

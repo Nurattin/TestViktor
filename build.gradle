@@ -4,14 +4,14 @@ buildscript {
         mavenCentral()
     }
     ext.versions = [
-            minSdk                       : 23,
-            compileSdk                   : 32,
+            minSdk                       : 21,
+            compileSdk                   : 33,
             versionCode                  : 5,
-            versionName                  : '1.0.4',
+            versionName                  : '1.0',
 
             gradleBuildTool              : '7.2.1',
             spotlessGradle               : '6.7.0',
-            kotlin                       : '1.7.0',
+            kotlin                       : '1.7.10',
 
             // material
             materialVersion              : '1.6.0',

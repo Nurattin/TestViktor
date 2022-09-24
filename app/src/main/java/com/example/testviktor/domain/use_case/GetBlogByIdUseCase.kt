@@ -5,7 +5,6 @@ import javax.inject.Inject
 
 class GetBlogByIdUseCase @Inject constructor(
     private val repo: GetBlogByIdRepository,
-    private val blogId: Int
 ) {
-    suspend operator fun invoke() = repo.getBlogById(blogId = blogId)
+    suspend operator fun invoke(blogId: Int) = repo.getBlogById(blogId = blogId)
 }

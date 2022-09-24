@@ -92,4 +92,12 @@ dependencies {
 
     //FlowLayout
     implementation "com.google.accompanist:accompanist-flowlayout:0.20.0"
+
+    //PlaceHolder
+    implementation "com.google.accompanist:accompanist-placeholder:0.26.4-beta"
+
+    //Pager
+    implementation "com.google.accompanist:accompanist-pager:0.26.4-beta"
+    implementation "com.google.accompanist:accompanist-pager-indicators:0.26.4-beta"
+
 }

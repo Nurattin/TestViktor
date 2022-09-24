@@ -35,4 +35,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun binMainRepository(repo: GetMainRepositoryImpl): GetMainRepository
+
+    @Binds
+    abstract fun binBlogByIdRepository(repo: GetBlogByIdRepositoryImpl): GetBlogByIdRepository
 }

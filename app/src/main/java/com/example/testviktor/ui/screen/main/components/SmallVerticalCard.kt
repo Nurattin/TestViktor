@@ -32,17 +32,20 @@ import com.example.testviktor.ui.theme.TestViktorTheme
 @Composable
 fun SmallVerticalCard(
     width: Dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    price: Int,
+    type: String,
+    imageUrl: String,
+    title: String
 ) {
-
     val height = width * 0.65f
     Column(
-        modifier = modifier
+        modifier = modifier.width(width),
     ) {
         Card(
             modifier = Modifier
-                .height(height)
-                .width(width),
+                .height(height),
+
             border = BorderStroke(
                 width = 1.dp,
                 color = if (isSystemInDarkTheme()) BorderImageDark else BorderImageLight
@@ -52,7 +55,7 @@ fun SmallVerticalCard(
         ) {
             AsyncImage(
                 modifier = Modifier.fillMaxSize(),
-                model = "https://hills-moscow.ru/images/jatoms/tours/tur-vykhodnogo-dnya-dagestan-otkrytie/6bc52d5d0e604aceb7c7f11f83c176d4.jpeg",
+                model = imageUrl,
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds,
                 placeholder = painterResource(id = R.drawable.ic_baseline_image),
@@ -61,20 +64,13 @@ fun SmallVerticalCard(
         }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = "До 2 гостей",
+            text = title,
             fontFamily = FontFamily(Font(R.font.roboto, FontWeight.Normal)),
             fontSize = 12.sp,
             fontWeight = FontWeight.Normal,
             color = MaterialTheme.colors.onSurface,
             lineHeight = 16.sp,
-        )
-        Text(
-            text = "Guest House (корпус 2)",
-            fontFamily = FontFamily(Font(R.font.roboto, FontWeight.Normal)),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Normal,
-            color = MaterialTheme.colors.onSurface,
-            lineHeight = 16.sp,
+            maxLines = 1
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(buildAnnotatedString {
@@ -86,8 +82,9 @@ fun SmallVerticalCard(
                     fontWeight = FontWeight.Normal,
                 )
             ) {
-                append("2 000₽ ")
+                append("$price")
             }
+            append(" ")
             withStyle(
                 style = SpanStyle(
                     color = MaterialTheme.colors.onSurface,
@@ -96,7 +93,7 @@ fun SmallVerticalCard(
                     fontWeight = FontWeight.Normal,
                 )
             ) {
-                append("/ ночь")
+                append(type)
             }
         })
     }
@@ -108,7 +105,11 @@ fun SmallVerticalCard(
 private fun SmallVerticalCardPreview() {
     TestViktorTheme() {
         SmallVerticalCard(
-            width = 160.dp
+            width = 160.dp,
+            title = "Автотур \"Океан\" Андреевка Молодежная 5 дней",
+            price = 7320,
+            type = "Rub",
+            imageUrl = ""
         )
     }
 }

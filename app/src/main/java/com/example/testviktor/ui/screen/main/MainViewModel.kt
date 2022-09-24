@@ -4,9 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mappa.data.result.Result
 import com.example.mappa.data.result.asSuccess
-import com.example.testviktor.domain.use_case.GetBlogUseCase
-import com.example.testviktor.domain.use_case.GetMainUseCase
-import com.example.testviktor.domain.use_case.GetRoomUseCase
+import com.example.testviktor.domain.use_case.*
 import com.example.testviktor.ui.screen.main.state.MainUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +17,9 @@ class MainViewModel @Inject constructor(
     private val getBlogUseCase: GetBlogUseCase,
     private val getRoomUseCase: GetRoomUseCase,
     private val getMainUseCase: GetMainUseCase,
+    private val getChildUseCase: GetChildUseCase,
+    private val getPlaceUseCase: GetPlaceUseCase,
+    private val getToursUseCase: GetToursUseCase
 ) : ViewModel() {
 
     private var _uiState = MutableStateFlow(MainUiState())
@@ -46,13 +47,13 @@ class MainViewModel @Inject constructor(
                     }
                 }
             }
-            when (val roomsList = getRoomUseCase()) {
+            when (val roomState = getRoomUseCase()) {
                 is Result.Failure<*> -> {}
 
                 is Result.Loading -> {}
 
                 is Result.Success -> {
-                    roomsList.asSuccess().value.data.let {
+                    roomState.asSuccess().value.data.let {
                         _uiState.value = _uiState.value.copy(
                             roomsState = MainUiState.RoomState(
                                 roomsList = it
@@ -61,6 +62,61 @@ class MainViewModel @Inject constructor(
                     }
                 }
             }
+            when (val forKidsList = getChildUseCase()) {
+                is Result.Failure<*> -> {}
+
+                is Result.Loading -> {}
+
+                is Result.Success -> {
+                    forKidsList.asSuccess().value.data.let {
+                        _uiState.value = _uiState.value.copy(
+                            forKidsList = it
+                        )
+                    }
+                }
+            }
+            when (val placeList = getPlaceUseCase()) {
+                is Result.Failure<*> -> {}
+
+                is Result.Loading -> {}
+
+                is Result.Success -> {
+                    placeList.asSuccess().value.data.let {
+                        _uiState.value = _uiState.value.copy(
+                            placesList = it
+                        )
+                    }
+                }
+            }
+
+            when (val toursList = getToursUseCase()) {
+                is Result.Failure<*> -> {}
+
+                is Result.Loading -> {}
+
+                is Result.Success -> {
+                    toursList.asSuccess().value.data.let {
+                        _uiState.value = _uiState.value.copy(
+                            toursList = it
+                        )
+                    }
+                }
+            }
+
+            when (val blogList = getBlogUseCase()) {
+                is Result.Failure<*> -> {}
+
+                is Result.Loading -> {}
+
+                is Result.Success -> {
+                    blogList.asSuccess().value.data.let {
+                        _uiState.value = _uiState.value.copy(
+                            blogList = it
+                        )
+                    }
+                }
+            }
+
         }
     }
 
